@@ -5,9 +5,20 @@
 #include "ElevatorOnlyOdd.h"
 #include <fstream>
 #include <ctime>
-int main() {
+using namespace std;
+int main(int argc, char* argv[]) {
+    std::ifstream fin;
+    if (argc<2) {
+        cout << "Too few arguments";
+        return 1;
+    } else if (argc==2) {
+        fin = ifstream(argv[1]);
+    } else if (argc>5) {
+        cout << "Too many arguments";
+        return 1;
+    }
+
     srand(time(0));
-    std::ifstream fin("input.txt");
     World world;
     Scheduler scheduler(world);
     Elevator elevator2(world);
@@ -20,6 +31,11 @@ int main() {
     elevator1.setOutputFile("output1.txt");
     elevator2.setOutputFile("output2.txt");
     elevator3.setOutputFile("output3.txt");
+    if (argc==5) {
+        elevator1.setOutputFile(argv[2]);
+        elevator2.setOutputFile(argv[3]);
+        elevator3.setOutputFile(argv[4]);
+    }
     int requestTime, initialFloor, destination;
     for (int i = 0; i < n; i++) {
         fin >> requestTime >> initialFloor >> destination;
